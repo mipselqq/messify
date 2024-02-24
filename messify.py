@@ -1,16 +1,17 @@
 from random import shuffle
 
+SPECIAL_CHARS = ",.!?;:'"
+
 
 def shuffle_str_without_special_chars_displacement(string: str):
-    special_chars = ",.!?;:'"
-
     special_chars_with_indices = [
-        (char, index) for index, char in enumerate(string) if char in special_chars
+        (char, index) for index, char in enumerate(string) if char in SPECIAL_CHARS
     ]
     string_without_special_chars = [
-        char for char in string if char not in special_chars
+        char for char in string if char not in SPECIAL_CHARS
     ]
 
+    # TODO: make sure that the string has always changed
     shuffle(string_without_special_chars)
 
     for char, index in special_chars_with_indices:
@@ -27,9 +28,10 @@ def mess(text: str):
             result += word + " "
             continue
 
+        last_char_index = -1 if word[-1] not in SPECIAL_CHARS else -2
+        last_char = word[last_char_index]
         first_char = word[0]
-        last_char = word[-1]
-        rest = word[1:-1]
+        rest = word[1:last_char_index]
 
         shuffled_rest = shuffle_str_without_special_chars_displacement(rest)
 
